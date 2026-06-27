@@ -20,10 +20,10 @@ public class ActivityContoller {
     }
 
     @PostMapping
-    public ResponseEntity<ActivityResponse> trackAtivity(@RequestBody ActivityRequest request){
-        System.out.println("🔥 Received startTime: " + request.getStartTime());
+    public ResponseEntity<ActivityResponse> trackAtivity(@RequestBody ActivityRequest request,
+                                                         @RequestHeader("X-User-ID") String userId) {
+        request.setUserId(userId); // overwrite whatever the client sent — only the Gateway's verified ID counts
         return ResponseEntity.ok(activityService.trackAtivity(request));
-
     }
     @GetMapping
     public ResponseEntity<List<ActivityResponse>> getUserActivity(@RequestHeader("x-user-ID") String userId){

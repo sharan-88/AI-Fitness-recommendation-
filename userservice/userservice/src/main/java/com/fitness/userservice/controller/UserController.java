@@ -1,5 +1,7 @@
 package com.fitness.userservice.controller;
 
+import com.fitness.userservice.dto.LoginRequest;
+import com.fitness.userservice.dto.LoginResponse;
 import com.fitness.userservice.dto.RegisterRequest;
 import com.fitness.userservice.dto.UserResponse;
 import com.fitness.userservice.service.UserService;
@@ -13,26 +15,25 @@ import org.springframework.web.bind.annotation.*;
 @AllArgsConstructor
 public class UserController {
 
-    private UserService userService;
+    private final UserService userService;
 
-    @GetMapping("/")
-    public String gethomepage(){
-        return "home page is returned";
+    @PostMapping("/register")
+    public ResponseEntity<UserResponse> register(@Valid @RequestBody RegisterRequest request) {
+        return ResponseEntity.ok(userService.register(request));
     }
+
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginRequest request) {
+        return ResponseEntity.ok(userService.login(request));
+    }
+
     @GetMapping("/{userid}")
-    public ResponseEntity<UserResponse> getuserprofile(@PathVariable String userid){
+    public ResponseEntity<UserResponse> getuserprofile(@PathVariable String userid) {
         return ResponseEntity.ok(userService.getUserProfile(userid));
     }
 
-    @PostMapping("/register")
-    public ResponseEntity<UserResponse> register( @Valid @RequestBody RegisterRequest request){
-
-        return ResponseEntity.ok(userService.register(request));
-    }
     @GetMapping("/{userid}/validate")
-    public ResponseEntity<Boolean> validateuserprofile(@PathVariable String userid){
+    public ResponseEntity<Boolean> validateuserprofile(@PathVariable String userid) {
         return ResponseEntity.ok(userService.existByUserId(userid));
     }
-
-
 }

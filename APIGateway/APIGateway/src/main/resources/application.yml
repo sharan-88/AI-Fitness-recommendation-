@@ -27,5 +27,6 @@ eureka:
   instance:
     hostname: localhost
     prefer-ip-address: true
-
+jwt:
+  secret: ${JWT_SECRET:this-is-a-dev-only-secret-key-for-fitness-app}
 
